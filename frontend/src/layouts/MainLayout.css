@@ -1,0 +1,24 @@
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.layout-container {
+  display: flex;
+  flex: 1;
+}
+
+.main-content {
+  flex: 1;
+  padding: 30px;
+  background-color: #f5f7fa;
+  overflow-y: auto;
+}
+
+.footer {
+  background-color: #1e293b;
+  color: white;
+  text-align: center;
+  padding: 15px;
+}

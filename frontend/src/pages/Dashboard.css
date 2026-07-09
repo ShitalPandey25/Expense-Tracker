@@ -1,0 +1,42 @@
+.dashboard {
+  padding: 20px;
+}
+
+.dashboard h1 {
+  margin-bottom: 25px;
+  color: #1e293b;
+}
+
+.summary-container {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.transactions {
+  margin-top: 40px;
+}
+
+.transactions h2 {
+  margin-bottom: 15px;
+}
+
+.transaction-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.transaction-table th,
+.transaction-table td {
+  padding: 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.transaction-table th {
+  background: #2563eb;
+  color: white;
+}
