@@ -17,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/ShitalPandey25/Expense-Tracker/issues"
   },
-  "homepage": "https://github.com/ShitalPandey25/Expense-Tracker#readme"
+  "homepage": "https://github.com/ShitalPandey25/Expense-Tracker#readme",
+  "dependencies": {
+    "react-icons": "^5.7.0"
+  }
 }

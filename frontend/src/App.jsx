@@ -1,11 +1,11 @@
-import Dashboard from "./pages/Dashboard";
-import MainLayout from "./layouts/MainLayout.jsx";
+import { BrowserRouter } from "react-router-dom";
+import ExpenseRouter from "./Router/ExpenseRouter";
 
 function App() {
   return (
-  <MainLayout>
-      <Dashboard />
-    </MainLayout>
+    <BrowserRouter>
+      <ExpenseRouter />
+    </BrowserRouter>
   );
 }
 

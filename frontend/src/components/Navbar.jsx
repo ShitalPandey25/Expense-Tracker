@@ -9,14 +9,7 @@ function Navbar() {
       </h2>
 
 
-      <ul className="navbar-menu">
-
-        <li>Dashboard</li>
-        <li>Income</li>
-        <li>Expense</li>
-        <li>Reports</li>
-
-      </ul>
+      
 
     </nav>
   );
