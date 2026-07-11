@@ -2,15 +2,11 @@
 
   width: 240px;
   min-height: calc(100vh - 70px);
-
   background-color: #0f172a;
-
   color: white;
-
   padding: 30px 20px;
 
 }
-
 
 .sidebar ul {
 
@@ -18,13 +14,9 @@
 
 }
 
-
 .sidebar li {
-
   padding: 15px 10px;
-
   cursor: pointer;
-
   border-radius: 8px;
 
 }
@@ -34,4 +26,14 @@
 
   background-color: #1e293b;
 
+}
+.sidebar a {
+  display: block;
+  color: white;
+  text-decoration: none;
+}
+
+.sidebar a:hover,
+.sidebar a.active {
+  color: #ffffff;
 }
