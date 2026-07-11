@@ -1,16 +1,26 @@
+import { NavLink } from "react-router-dom";
+import "./Sidebar.css";
+
 function Sidebar() {
   return (
     <aside className="sidebar">
-
       <ul>
+        <li>
+          <NavLink to="/">Dashboard</NavLink>
+        </li>
 
-        <li>Dashboard</li>
-        <li>Income</li>
-        <li>Expense</li>
-        <li>Reports</li>
+        <li>
+          <NavLink to="/expenses">Expenses</NavLink>
+        </li>
 
+        <li>
+          <NavLink to="/income">Income</NavLink>
+        </li>
+
+        <li>
+          <NavLink to="/reports">Reports</NavLink>
+        </li>
       </ul>
-
     </aside>
   );
 }

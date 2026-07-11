@@ -1,6 +1,7 @@
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import "./MainLayout.css";
+import Footer from "../components/Footer";
 
 
 function MainLayout({ children }) {
