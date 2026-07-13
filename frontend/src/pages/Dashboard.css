@@ -12,6 +12,9 @@
   font-weight: 700;
 }
 
+.dashboard h2 {
+  margin-bottom: 10px;
+}
 .summary-container {
   display: flex;
   gap: 25px;

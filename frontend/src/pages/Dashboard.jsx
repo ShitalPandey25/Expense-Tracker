@@ -4,7 +4,7 @@ import SummaryCard from "../components/SummaryCard";
 function Dashboard() {
   return (
     <div className="dashboard">
-      <h1>Welcome Back 👋</h1>
+      <h1>Track Your Finances 💰</h1>
 
       <div className="summary-container">
         <SummaryCard

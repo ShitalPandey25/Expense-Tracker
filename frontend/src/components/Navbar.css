@@ -1,6 +1,6 @@
 .navbar {
   width: 100%;
-  height: 70px;
+  min-height: 70px;
   background-color: #1e293b;
   color: white;
 
@@ -33,4 +33,54 @@
 
 .navbar-menu li:hover {
   color: #38bdf8;
+}
+
+
+/* Tablet */
+
+@media(max-width:900px){
+
+  .navbar{
+    padding:0 25px;
+  }
+
+  .navbar-title{
+    font-size:22px;
+  }
+
+}
+
+
+/* Mobile */
+
+@media(max-width:600px){
+
+  .navbar{
+
+    padding:0 15px;
+    min-height:60px;
+
+  }
+
+
+  .navbar-title{
+
+    font-size:20px;
+
+  }
+
+
+  .navbar-menu{
+
+    gap:12px;
+
+  }
+
+
+  .navbar-menu li{
+
+    font-size:14px;
+
+  }
+
 }
