@@ -1,31 +1,101 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import "./Register.css";
 
 function Register() {
+
+  const navigate = useNavigate();
+
+  const [user, setUser] = useState({
+    name: "",
+    email: "",
+    password: ""
+  });
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleChange = (e) => {
+    setUser({
+      ...user,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleRegister = (e) => {
+    e.preventDefault();
+
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+
+    const existUser = users.find(
+      (item) => item.email === user.email
+    );
+
+    if (existUser) {
+      alert("User already exists");
+      return;
+    }
+
+    users.push(user);
+
+    localStorage.setItem(
+      "users",
+      JSON.stringify(users)
+    );
+
+    alert("Registration Successful");
+
+    navigate("/login");
+  };
+
   return (
     <div className="register-container">
 
       <div className="register-card">
 
         <h1>Expense Tracker</h1>
-        <h2>Create Account</h2>
 
-        <form>
+        <h2>Register</h2>
+
+        <form onSubmit={handleRegister}>
 
           <input
             type="text"
-            placeholder="Full Name"
+            name="name"
+            placeholder="Enter Name"
+            value={user.name}
+            onChange={handleChange}
+            required
           />
 
           <input
             type="email"
-            placeholder="Email"
+            name="email"
+            placeholder="Enter Email"
+            value={user.email}
+            onChange={handleChange}
+            required
           />
 
-          <input
-            type="password"
-            placeholder="Password"
-          />
+          <div className="password-box">
+
+            <input
+              type={showPassword ? "text" : "password"}
+              name="password"
+              placeholder="Enter Password"
+              value={user.password}
+              onChange={handleChange}
+              required
+            />
+
+            <span
+              className="eye-icon"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            </span>
+
+          </div>
 
           <button type="submit">
             Register
