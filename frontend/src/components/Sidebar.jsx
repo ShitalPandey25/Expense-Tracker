@@ -4,23 +4,35 @@ import "./Sidebar.css";
 function Sidebar() {
   return (
     <aside className="sidebar">
+
       <ul>
+
         <li>
-          <NavLink to="/">Dashboard</NavLink>
+          <NavLink to="/dashboard">
+            Dashboard
+          </NavLink>
         </li>
 
         <li>
-          <NavLink to="/income">Income</NavLink>
+          <NavLink to="/income">
+            Income
+          </NavLink>
         </li>
 
         <li>
-          <NavLink to="/expenses">Expenses</NavLink>
+          <NavLink to="/expenses">
+            Expenses
+          </NavLink>
         </li>
 
         <li>
-          <NavLink to="/reports">Reports</NavLink>
+          <NavLink to="/reports">
+            Reports
+          </NavLink>
         </li>
+
       </ul>
+
     </aside>
   );
 }

@@ -73,7 +73,7 @@ function Login() {
           <input
             type="email"
             name="email"
-            placeholder="Enter Email"
+            placeholder="Enter Registered Email"
             value={loginData.email}
             onChange={handleChange}
             required

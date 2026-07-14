@@ -1,25 +1,30 @@
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import "./MainLayout.css";
-import Footer from "../components/Footer";
+import { Outlet } from "react-router-dom";
 
 
-function MainLayout({ children }) {
+function MainLayout() {
+
   return (
     <div className="layout">
+
       <Navbar />
 
       <div className="layout-container">
+
         <Sidebar />
 
         <main className="main-content">
-          {children}
+          <Outlet />
         </main>
+
       </div>
 
       <footer className="footer">
         © 2026 Expense Tracker
       </footer>
+
     </div>
   );
 }
