@@ -1,23 +1,16 @@
-import { Routes, Route } from "react-router-dom";
+import express from "express";
+import {
+  addExpense,
+  getExpenses,
+  updateExpense,
+  deleteExpense,
+} from "../controllers/expenseController.js";
 
-import MainLayout from "../layouts/MainLayout";
+const router = express.Router();
 
-import Dashboard from "../pages/Dashboard";
-import Expenses from "../pages/Expenses";
-import Income from "../pages/Income";
-import Reports from "../pages/Reports";
+router.post("/", addExpense);
+router.get("/", getExpenses);
+router.delete("/:id", deleteExpense);
+router.put("/:id", updateExpense);
 
-function ExpenseRouter() {
-  return (
-    <MainLayout>
-      <Routes>
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/expenses" element={<Expenses />} />
-        <Route path="/income" element={<Income />} />
-        <Route path="/reports" element={<Reports />} />
-      </Routes>
-    </MainLayout>
-  );
-}
-
-export default ExpenseRouter;
+export default router;
