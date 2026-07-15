@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./income.css";
 
 function Income() {
@@ -17,38 +17,7 @@ function Income() {
 
 
 
-  const [incomeData, setIncomeData] = useState(() => {
-
-    const savedIncome = localStorage.getItem("incomeData");
-
-    return savedIncome
-      ? JSON.parse(savedIncome)
-      : [
-          {
-            id: 1,
-            title: "Salary",
-            source: "Job",
-            amount: "₹30,000",
-            date: "01 Jul 2026",
-          },
-          {
-            id: 2,
-            title: "Freelancing",
-            source: "Client",
-            amount: "₹8,000",
-            date: "05 Jul 2026",
-          },
-          {
-            id: 3,
-            title: "Bonus",
-            source: "Company",
-            amount: "₹2,000",
-            date: "08 Jul 2026",
-          },
-        ];
-
-  });
-
+  const [incomeData, setIncomeData] = useState([]);
 
 
   const handleChange = (e) => {
@@ -64,133 +33,112 @@ function Income() {
   };
 
 
+const clearForm = () => {
+  setIncomeForm({
+    title: "",
+    source: "",
+    amount: "",
+    date: "",
+  });
 
-  const clearForm = () => {
+  setEditId(null);
+};
+  
 
-    setIncomeForm({
+    
 
-      title: "",
-      source: "",
-      amount: "",
-      date: "",
+useEffect(() => {
+  fetchIncome();
+}, []);
 
-    });
+const fetchIncome = async () => {
+  try {
+    const response = await fetch("http://localhost:5000/api/income");
 
-    setEditId(null);
+    const data = await response.json();
 
-  };
+    setIncomeData(data);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
+  const handleSave = async () => {
 
+  if (
+    !incomeForm.title ||
+    !incomeForm.source ||
+    !incomeForm.amount ||
+    !incomeForm.date
+  ) {
+    alert("Please fill all fields.");
+    return;
+  }
 
-  const handleSave = () => {
+  try {
 
+    // UPDATE
+    if (editId) {
 
-    if (
-      !incomeForm.title ||
-      !incomeForm.source ||
-      !incomeForm.amount ||
-      !incomeForm.date
-    ) {
-
-      alert("Please fill all fields.");
-      return;
-
-    }
-
-
-
-    let updatedIncome;
-
-
-
-    // UPDATE INCOME
-
-    if(editId){
-
-
-      updatedIncome = incomeData.map((income)=>{
-
-
-        if(income.id === editId){
-
-          return {
-
-            ...income,
-
+      const response = await fetch(
+        `http://localhost:5000/api/income/${editId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
             title: incomeForm.title,
-
             source: incomeForm.source,
-
-            amount: `₹${incomeForm.amount}`,
-
-            date: incomeForm.date,
-
-          };
-
+            amount: Number(incomeForm.amount),
+            date: incomeForm.date.split("T")[0],
+          }),
         }
+      );
 
-
-        return income;
-
-
-      });
-
+      const data = await response.json();
+      alert(data.message);
 
     }
 
+    // ADD
+    else {
 
+      const response = await fetch(
+        "http://localhost:5000/api/income",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            title: incomeForm.title,
+            source: incomeForm.source,
+            amount: Number(incomeForm.amount),
+            date: incomeForm.date,
+          }),
+        }
+      );
 
-    // ADD NEW INCOME
-
-    else{
-
-
-      const newIncome = {
-
-        id: Date.now(),
-
-        title: incomeForm.title,
-
-        source: incomeForm.source,
-
-        amount: `₹${incomeForm.amount}`,
-
-        date: incomeForm.date,
-
-      };
-
-
-      updatedIncome = [
-
-        ...incomeData,
-
-        newIncome
-
-      ];
-
+      const data = await response.json();
+      alert(data.message);
 
     }
 
-
-
-    setIncomeData(updatedIncome);
-
-
-
-    localStorage.setItem(
-
-      "incomeData",
-
-      JSON.stringify(updatedIncome)
-
-    );
+    fetchIncome();
 
     clearForm();
 
     setShowForm(false);
 
+  } catch (error) {
 
-  };
+    console.log(error);
+
+    alert("Server Error");
+
+  }
+};
 
 
   const handleEdit = (income) => {
@@ -202,13 +150,13 @@ function Income() {
 
       source: income.source,
 
-      amount: income.amount.replace("₹","").replace(",",""),
+      amount: income.amount,
 
       date: income.date,
 
     });
 
-    setEditId(income.id);
+    setEditId(income._id);
 
 
     setShowForm(true);
@@ -216,44 +164,38 @@ function Income() {
 
   };
 
+const handleDelete = async (id) => {
 
-  const handleDelete = (id) => {
+  const confirmDelete = window.confirm(
+    "Are you sure you want to delete this income?"
+  );
 
+  if (!confirmDelete) return;
 
-    const confirmDelete = window.confirm(
+  try {
 
-      "Are you sure you want to delete this income?"
-
+    const response = await fetch(
+      `http://localhost:5000/api/income/${id}`,
+      {
+        method: "DELETE",
+      }
     );
 
+    const data = await response.json();
 
+    alert(data.message);
 
-    if(!confirmDelete){
+    fetchIncome();
 
-      return;
+  } catch (error) {
 
-    }
+    console.log(error);
 
+    alert("Server Error");
 
+  }
 
-    const updatedIncome = incomeData.filter(
-
-      (income)=> income.id !== id
-
-    );
-
-    setIncomeData(updatedIncome);
-
-    localStorage.setItem(
-
-      "incomeData",
-
-      JSON.stringify(updatedIncome)
-
-    );
-
-
-  };
+};
 
   return (
 
@@ -417,18 +359,20 @@ function Income() {
           {incomeData.map((income)=>(
 
 
-            <tr key={income.id}>
+            <tr key={income._id}>
 
 
               <td>{income.title}</td>
 
               <td>{income.source}</td>
 
-              <td>{income.date}</td>
+              <td>
+  {new Date(income.date).toLocaleDateString("en-GB").replace(/\//g, "-")}
+</td>
 
               <td className="income-amount">
 
-                {income.amount}
+                 ₹{income.amount}
 
               </td>
               <td className="action-buttons">
@@ -449,7 +393,7 @@ function Income() {
 
                   className="delete-btn"
 
-                  onClick={()=>handleDelete(income.id)}
+                  onClick={()=>handleDelete(income._id)}
 
                 >
 

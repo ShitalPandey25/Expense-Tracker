@@ -1,6 +1,29 @@
+import { useEffect, useState } from "react";
 import "./Reports.css";
 
 function Reports() {
+  const [report, setReport] = useState({
+  totalIncome: 0,
+  totalExpense: 0,
+  balance: 0,
+});
+
+useEffect(() => {
+  fetchReport();
+}, []);
+
+const fetchReport = async () => {
+  try {
+    const response = await fetch("http://localhost:5000/api/reports");
+
+    const data = await response.json();
+
+    setReport(data);
+
+  } catch (error) {
+    console.log(error);
+  }
+};
   return (
     <div className="reports">
       <h1>Reports</h1>
@@ -8,17 +31,17 @@ function Reports() {
       <div className="report-cards">
         <div className="report-card">
           <h3>Total Income</h3>
-          <p>₹40,000</p>
+          <p>₹{report.totalIncome}</p>
         </div>
 
         <div className="report-card">
           <h3>Total Expense</h3>
-          <p>₹15,000</p>
+          <p>₹{report.totalExpense}</p>
         </div>
 
         <div className="report-card">
           <h3>Total Balance</h3>
-          <p>₹25,000</p>
+          <p>₹{report.balance}</p>
         </div>
       </div>
 
@@ -37,11 +60,11 @@ function Reports() {
 
           <tbody>
             <tr>
-              <td>July</td>
-              <td>₹40,000</td>
-              <td>₹15,000</td>
-              <td>₹25,000</td>
-            </tr>
+  <td>{new Date().toLocaleString("default", { month: "long" })}</td>
+  <td>₹{report.totalIncome}</td>
+  <td>₹{report.totalExpense}</td>
+  <td>₹{report.balance}</td>
+</tr>
           </tbody>
         </table>
       </div>

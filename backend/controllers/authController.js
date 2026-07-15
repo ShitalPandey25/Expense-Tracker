@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 
 export const registerUser = async (req, res) => {
   try {
+    console.log(req.body);
     const { name, email, password } = req.body;
 
     // Check user already exists
@@ -28,6 +29,55 @@ export const registerUser = async (req, res) => {
       message: "User Registered Successfully",
       user,
     });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+import jwt from "jsonwebtoken";
+
+export const loginUser = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    // User find
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(400).json({
+        message: "Invalid Email or Password",
+      });
+    }
+
+    // Password check
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (!isMatch) {
+      return res.status(400).json({
+        message: "Invalid Email or Password",
+      });
+    }
+
+    // JWT Token
+    const token = jwt.sign(
+      { id: user._id },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "7d",
+      }
+    );
+
+    res.status(200).json({
+      message: "Login Successful",
+      token,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+      },
+    });
+
   } catch (error) {
     res.status(500).json({
       message: error.message,
