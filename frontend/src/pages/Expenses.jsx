@@ -1,21 +1,23 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import API from "../api/axios";
 import "./Expenses.css";
 
 function Expenses() {
+useEffect(() => {
 
-  const [showForm, setShowForm] = useState(false);
+    API.get("/expenses")
+    .then((response)=>{
 
-  const [editId, setEditId] = useState(null);
+        console.log(response.data);
 
+    })
+    .catch((error)=>{
 
-  const [expenseForm, setExpenseForm] = useState({
-    title: "",
-    category: "",
-    amount: "",
-    date: "",
-  });
+        console.log(error);
 
+    });
 
+},[]); 
 
   const [expenses, setExpenses] = useState(() => {
 

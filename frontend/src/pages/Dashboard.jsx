@@ -1,26 +1,73 @@
+import { useState, useEffect } from "react";
+import API from "../api/axios";
 import "./Dashboard.css";
 import SummaryCard from "../components/SummaryCard";
 
 function Dashboard() {
+    const [incomeData, setIncomeData] = useState([]);
+    const [expenseData, setExpenseData] = useState([]);
+
+      useEffect(() => {
+
+    const fetchData = async () => {
+
+      try {
+
+        const incomeResponse = await API.get("/income");
+        const expenseResponse = await API.get("/expenses");
+
+        setIncomeData(incomeResponse.data);
+        setExpenseData(expenseResponse.data);
+
+      } catch (error) {
+
+        console.log(error);
+
+      }
+
+    };
+
+
+    fetchData();
+
+  }, []);
+
+    const totalIncome = incomeData.reduce(
+    (sum, income) => sum + income.amount,
+    0
+  );
+
+  const totalExpense = expenseData.reduce(
+    (sum, expense) => sum + expense.amount,
+    0
+  );
+
+  const totalBalance = totalIncome - totalExpense;
+
+
   return (
     <div className="dashboard">
       <h1>Track Your Finances 💰</h1>
 
       <div className="summary-container">
-        <SummaryCard
-          title="Total Balance"
-          amount="25,000"
-        />
+       <div className="summary-container">
 
-        <SummaryCard
-          title="Total Income"
-          amount="40,000"
-        />
+  <SummaryCard
+    title="Total Balance"
+    amount={`${totalBalance}`}
+  />
 
-        <SummaryCard
-          title="Total Expense"
-          amount="15,000"
-        />
+  <SummaryCard
+    title="Total Income"
+    amount={`${totalIncome}`}
+  />
+
+  <SummaryCard
+    title="Total Expense"
+    amount={`${totalExpense}`}
+  />
+
+</div>
       </div>
 
       <div className="transactions">
@@ -36,24 +83,38 @@ function Dashboard() {
           </thead>
 
           <tbody>
-            <tr>
-              <td>Salary</td>
-              <td>Income</td>
-              <td>₹30,000</td>
-            </tr>
 
-            <tr>
-              <td>Groceries</td>
-              <td>Food</td>
-              <td>₹1,200</td>
-            </tr>
+  {[
+    ...incomeData.map((income) => ({
+      ...income,
+      type: "Income",
+    })),
 
-            <tr>
-              <td>Electricity Bill</td>
-              <td>Bills</td>
-              <td>₹900</td>
-            </tr>
-          </tbody>
+    ...expenseData.map((expense) => ({
+      ...expense,
+      type: "Expense",
+    })),
+  ]
+    .slice(0, 5)
+    .map((transaction) => (
+
+      <tr key={transaction._id}>
+
+        <td>{transaction.title}</td>
+
+        <td>
+          {transaction.type}
+        </td>
+
+        <td>
+          ₹{transaction.amount}
+        </td>
+
+      </tr>
+
+    ))}
+
+</tbody>
         </table>
       </div>
     </div>

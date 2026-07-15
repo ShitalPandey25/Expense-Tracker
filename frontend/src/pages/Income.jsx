@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import API from "../api/axios";
 import "./income.css";
 
 function Income() {
@@ -10,46 +11,27 @@ function Income() {
 
   const [incomeForm, setIncomeForm] = useState({
     title: "",
-    source: "",
+    category: "",
     amount: "",
     date: "",
   });
 
 
 
-  const [incomeData, setIncomeData] = useState(() => {
+ const [incomeData, setIncomeData] = useState([]);
 
-    const savedIncome = localStorage.getItem("incomeData");
+useEffect(() => {
+  const fetchIncome = async () => {
+    try {
+      const response = await API.get("/income");
+      setIncomeData(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-    return savedIncome
-      ? JSON.parse(savedIncome)
-      : [
-          {
-            id: 1,
-            title: "Salary",
-            source: "Job",
-            amount: "₹30,000",
-            date: "01 Jul 2026",
-          },
-          {
-            id: 2,
-            title: "Freelancing",
-            source: "Client",
-            amount: "₹8,000",
-            date: "05 Jul 2026",
-          },
-          {
-            id: 3,
-            title: "Bonus",
-            source: "Company",
-            amount: "₹2,000",
-            date: "08 Jul 2026",
-          },
-        ];
-
-  });
-
-
+  fetchIncome();
+}, []);
 
   const handleChange = (e) => {
 
@@ -63,14 +45,12 @@ function Income() {
 
   };
 
-
-
   const clearForm = () => {
 
     setIncomeForm({
 
       title: "",
-      source: "",
+      category: "",
       amount: "",
       date: "",
 
@@ -81,117 +61,38 @@ function Income() {
   };
 
 
+  const handleSave = async () => {
 
-  const handleSave = () => {
+  if (
+    !incomeForm.title ||
+    !incomeForm.category ||
+    !incomeForm.amount ||
+    !incomeForm.date
+  ) {
+    alert("Please fill all fields.");
+    return;
+  }
 
+  try {
 
-    if (
-      !incomeForm.title ||
-      !incomeForm.source ||
-      !incomeForm.amount ||
-      !incomeForm.date
-    ) {
+    const response = await API.post("/income", {
+      title: incomeForm.title,
+      category: incomeForm.category,
+      amount: Number(incomeForm.amount),
+      date: incomeForm.date,
+    });
 
-      alert("Please fill all fields.");
-      return;
-
-    }
-
-
-
-    let updatedIncome;
-
-
-
-    // UPDATE INCOME
-
-    if(editId){
-
-
-      updatedIncome = incomeData.map((income)=>{
-
-
-        if(income.id === editId){
-
-          return {
-
-            ...income,
-
-            title: incomeForm.title,
-
-            source: incomeForm.source,
-
-            amount: `₹${incomeForm.amount}`,
-
-            date: incomeForm.date,
-
-          };
-
-        }
-
-
-        return income;
-
-
-      });
-
-
-    }
-
-
-
-    // ADD NEW INCOME
-
-    else{
-
-
-      const newIncome = {
-
-        id: Date.now(),
-
-        title: incomeForm.title,
-
-        source: incomeForm.source,
-
-        amount: `₹${incomeForm.amount}`,
-
-        date: incomeForm.date,
-
-      };
-
-
-      updatedIncome = [
-
-        ...incomeData,
-
-        newIncome
-
-      ];
-
-
-    }
-
-
-
-    setIncomeData(updatedIncome);
-
-
-
-    localStorage.setItem(
-
-      "incomeData",
-
-      JSON.stringify(updatedIncome)
-
-    );
+    setIncomeData([...incomeData, response.data.income]);
 
     clearForm();
-
     setShowForm(false);
 
+  } catch (error) {
+    console.error(error);
+    alert("Failed to save income");
+  }
 
-  };
-
+};
 
   const handleEdit = (income) => {
 
@@ -200,7 +101,7 @@ function Income() {
 
       title: income.title,
 
-      source: income.source,
+      category: income.category,
 
       amount: income.amount.replace("₹","").replace(",",""),
 
@@ -208,7 +109,7 @@ function Income() {
 
     });
 
-    setEditId(income.id);
+    setEditId(income._id);
 
 
     setShowForm(true);
@@ -243,14 +144,6 @@ function Income() {
     );
 
     setIncomeData(updatedIncome);
-
-    localStorage.setItem(
-
-      "incomeData",
-
-      JSON.stringify(updatedIncome)
-
-    );
 
 
   };
@@ -330,11 +223,11 @@ function Income() {
 
               type="text"
 
-              name="source"
+              name="category"
 
-              placeholder="Source"
+              placeholder="Category"
 
-              value={incomeForm.source}
+              value={incomeForm.category}
 
               onChange={handleChange}
 
@@ -399,7 +292,7 @@ function Income() {
 
             <th>Title</th>
 
-            <th>Source</th>
+            <th>Category</th>
 
             <th>Date</th>
 
@@ -417,12 +310,12 @@ function Income() {
           {incomeData.map((income)=>(
 
 
-            <tr key={income.id}>
+            <tr key={income._id}>
 
 
               <td>{income.title}</td>
 
-              <td>{income.source}</td>
+              <td>{income.category}</td>
 
               <td>{income.date}</td>
 
@@ -449,7 +342,7 @@ function Income() {
 
                   className="delete-btn"
 
-                  onClick={()=>handleDelete(income.id)}
+                  onClick={()=>handleDelete(income._id)}
 
                 >
 
