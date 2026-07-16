@@ -3,11 +3,11 @@ import Income from "../models/Income.js";
 // Add Income
 export const addIncome = async (req, res) => {
   try {
-    const { title, source, amount, date } = req.body;
+    const { title,  Source, amount, date } = req.body;
 
     const income = await Income.create({
       title,
-      source,
+       Source,
       amount,
       date,
     });
@@ -39,13 +39,13 @@ export const getIncomes = async (req, res) => {
 // Update Income
 export const updateIncome = async (req, res) => {
   try {
-    const { title, source, amount, date } = req.body;
+    const { title,Source, amount, date } = req.body;
 
     const income = await Income.findByIdAndUpdate(
       req.params.id,
       {
         title,
-        source,
+         Source,
         amount,
         date,
       },

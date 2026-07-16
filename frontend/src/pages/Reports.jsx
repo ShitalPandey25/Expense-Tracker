@@ -6,6 +6,7 @@ function Reports() {
   totalIncome: 0,
   totalExpense: 0,
   balance: 0,
+  monthlySummary: [],
 });
 
 useEffect(() => {
@@ -59,13 +60,41 @@ const fetchReport = async () => {
           </thead>
 
           <tbody>
-            <tr>
-  <td>{new Date().toLocaleString("default", { month: "long" })}</td>
-  <td>₹{report.totalIncome}</td>
-  <td>₹{report.totalExpense}</td>
-  <td>₹{report.balance}</td>
-</tr>
-          </tbody>
+
+  {report.monthlySummary.length > 0 ? (
+
+    report.monthlySummary.map((item, index) => (
+
+      <tr key={index}>
+
+        <td>{item.month}</td>
+
+        <td>₹{item.income}</td>
+
+        <td>₹{item.expense}</td>
+
+        <td>₹{item.balance}</td>
+
+      </tr>
+
+    ))
+
+  ) : (
+
+    <tr>
+
+      <td
+        colSpan="4"
+        style={{ textAlign: "center" }}
+      >
+        No Data Available
+      </td>
+
+    </tr>
+
+  )}
+
+</tbody>
         </table>
       </div>
     </div>
