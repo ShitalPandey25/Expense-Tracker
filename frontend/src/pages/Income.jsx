@@ -1,16 +1,9 @@
 import { useState, useEffect } from "react";
-<<<<<<< HEAD
-import API from "../api/axios";
-=======
->>>>>>> d332f3876260dcf16ee5fddbfb1e28dbe1c4d94c
 import "./income.css";
 
 function Income() {
-
   const [showForm, setShowForm] = useState(false);
-
   const [editId, setEditId] = useState(null);
-
 
   const [incomeForm, setIncomeForm] = useState({
     title: "",
@@ -19,471 +12,305 @@ function Income() {
     date: "",
   });
 
+  const [incomeData, setIncomeData] = useState([]);
 
+  useEffect(() => {
+    fetchIncome();
+  }, []);
 
-<<<<<<< HEAD
- const [incomeData, setIncomeData] = useState([]);
-
-useEffect(() => {
+  // Get All Income
   const fetchIncome = async () => {
     try {
-      const response = await API.get("/income");
-      setIncomeData(response.data);
+      const response = await fetch(
+        "http://localhost:5000/api/income"
+      );
+
+      const data = await response.json();
+
+      setIncomeData(data);
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
   };
-=======
-  const [incomeData, setIncomeData] = useState([]);
->>>>>>> d332f3876260dcf16ee5fddbfb1e28dbe1c4d94c
 
-  fetchIncome();
-}, []);
-
+  // Input Change
   const handleChange = (e) => {
-
     setIncomeForm({
-
       ...incomeForm,
-
       [e.target.name]: e.target.value,
-
     });
-
   };
 
-<<<<<<< HEAD
+  // Clear Form
   const clearForm = () => {
-=======
-
-const clearForm = () => {
-  setIncomeForm({
-    title: "",
-    source: "",
-    amount: "",
-    date: "",
-  });
-
-  setEditId(null);
-};
-  
->>>>>>> d332f3876260dcf16ee5fddbfb1e28dbe1c4d94c
-
-    
-
-<<<<<<< HEAD
+    setIncomeForm({
       title: "",
-      category: "",
+      Source: "",
       amount: "",
       date: "",
-=======
-useEffect(() => {
-  fetchIncome();
-}, []);
->>>>>>> d332f3876260dcf16ee5fddbfb1e28dbe1c4d94c
-
-const fetchIncome = async () => {
-  try {
-    const response = await fetch("http://localhost:5000/api/income");
-
-    const data = await response.json();
-
-    setIncomeData(data);
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-  const handleSave = async () => {
-
-<<<<<<< HEAD
-  const handleSave = async () => {
-
-  if (
-    !incomeForm.title ||
-    !incomeForm.category ||
-    !incomeForm.amount ||
-    !incomeForm.date
-  ) {
-    alert("Please fill all fields.");
-    return;
-  }
-
-  try {
-
-    const response = await API.post("/income", {
-      title: incomeForm.title,
-      category: incomeForm.category,
-      amount: Number(incomeForm.amount),
-      date: incomeForm.date,
     });
 
-    setIncomeData([...incomeData, response.data.income]);
-=======
-  if (
-    !incomeForm.title ||
-    !incomeForm.source ||
-    !incomeForm.amount ||
-    !incomeForm.date
-  ) {
-    alert("Please fill all fields.");
-    return;
-  }
+    setEditId(null);
+  };
 
-  try {
-
-    // UPDATE
-    if (editId) {
-
-      const response = await fetch(
-        `http://localhost:5000/api/income/${editId}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            title: incomeForm.title,
-            source: incomeForm.source,
-            amount: Number(incomeForm.amount),
-            date: incomeForm.date.split("T")[0],
-          }),
-        }
-      );
-
-      const data = await response.json();
-      alert(data.message);
-
+  // Save / Update
+  const handleSave = async () => {
+    if (
+      !incomeForm.title ||
+      !incomeForm.Source ||
+      !incomeForm.amount ||
+      !incomeForm.date
+    ) {
+      alert("Please fill all fields");
+      return;
     }
 
-    // ADD
-    else {
+    try {
+      // UPDATE
+      if (editId) {
+        const response = await fetch(
+          `http://localhost:5000/api/income/${editId}`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              title: incomeForm.title,
+              Source: incomeForm.Source,
+              amount: Number(incomeForm.amount),
+              date: incomeForm.date,
+            }),
+          }
+        );
 
-      const response = await fetch(
-        "http://localhost:5000/api/income",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            title: incomeForm.title,
-            source: incomeForm.source,
-            amount: Number(incomeForm.amount),
-            date: incomeForm.date,
-          }),
-        }
-      );
+        const data = await response.json();
+        alert(data.message);
+      }
 
-      const data = await response.json();
-      alert(data.message);
+      // ADD
+      else {
+        const response = await fetch(
+          "http://localhost:5000/api/income",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              title: incomeForm.title,
+              Source: incomeForm.Source,
+              amount: Number(incomeForm.amount),
+              date: incomeForm.date,
+            }),
+          }
+        );
 
+        const data = await response.json();
+        alert(data.message);
+      }
+
+      fetchIncome();
+      clearForm();
+      setShowForm(false);
+    } catch (error) {
+      console.log(error);
+      alert("Server Error");
     }
+  };
 
-    fetchIncome();
->>>>>>> d332f3876260dcf16ee5fddbfb1e28dbe1c4d94c
-
-    clearForm();
-    setShowForm(false);
-
-  } catch (error) {
-<<<<<<< HEAD
-    console.error(error);
-    alert("Failed to save income");
-  }
-
-};
-=======
-
-    console.log(error);
-
-    alert("Server Error");
-
-  }
-};
-
->>>>>>> d332f3876260dcf16ee5fddbfb1e28dbe1c4d94c
-
+  // Edit
   const handleEdit = (income) => {
-
-
     setIncomeForm({
-
       title: income.title,
-
-      category: income.category,
-
+      Source: income.Source,
       amount: income.amount,
-
-      date: income.date,
-
+      date: income.date.split("T")[0],
     });
 
     setEditId(income._id);
-
-
     setShowForm(true);
-
-
   };
 
-const handleDelete = async (id) => {
-
-  const confirmDelete = window.confirm(
-    "Are you sure you want to delete this income?"
-  );
-
-  if (!confirmDelete) return;
-
-  try {
-
-    const response = await fetch(
-      `http://localhost:5000/api/income/${id}`,
-      {
-        method: "DELETE",
-      }
+  // Delete
+  const handleDelete = async (id) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this income?"
     );
 
-    const data = await response.json();
+    if (!confirmDelete) return;
 
-    alert(data.message);
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/income/${id}`,
+        {
+          method: "DELETE",
+        }
+      );
 
-    fetchIncome();
+      const data = await response.json();
 
-  } catch (error) {
+      alert(data.message);
 
-    console.log(error);
-
-    alert("Server Error");
-
-  }
-
-<<<<<<< HEAD
-    const updatedIncome = incomeData.filter(
-
-      (income)=> income.id !== id
-
-    );
-
-    setIncomeData(updatedIncome);
-
-
+      fetchIncome();
+    } catch (error) {
+      console.log(error);
+      alert("Server Error");
+    }
   };
-=======
-};
->>>>>>> d332f3876260dcf16ee5fddbfb1e28dbe1c4d94c
-
-  return (
-
+    return (
     <div className="income">
 
-
       <div className="income-header">
-
         <h1>Income</h1>
 
-
         <button
-
           className="add-btn"
-
-          onClick={()=>{
-
+          onClick={() => {
             clearForm();
-
             setShowForm(true);
-
           }}
-
         >
-
           + Add Income
-
         </button>
-
-
       </div>
 
       {showForm && (
-
         <>
-
-
           <div
-
             className="form-overlay"
-
-            onClick={()=>{
-
+            onClick={() => {
               setShowForm(false);
-
               clearForm();
-
             }}
-
           ></div>
+
           <div className="income-form">
 
-
-            <h3>
-
-              {editId ? "Edit Income" : "Add Income"}
-
-            </h3>
+            <h3>{editId ? "Edit Income" : "Add Income"}</h3>
 
             <input
-
               type="text"
-
               name="title"
-
               placeholder="Title"
-
               value={incomeForm.title}
-
               onChange={handleChange}
-
             />
-            <input
 
+            <input
               type="text"
-
-              name="category"
-
-              placeholder="Category"
-
-              value={incomeForm.category}
-
+              name="Source"
+              placeholder="Source"
+              value={incomeForm.Source}
               onChange={handleChange}
-
             />
-            <input
 
+            <input
               type="number"
-
               name="amount"
-
               placeholder="Amount"
-
               value={incomeForm.amount}
-
               onChange={handleChange}
-
             />
+
             <input
-
               type="date"
-
               name="date"
-
               value={incomeForm.date}
-
               onChange={handleChange}
-
             />
 
             <div className="form-buttons">
               <button onClick={handleSave}>
-
                 {editId ? "Update" : "Save"}
-
               </button>
+
               <button
-
-                onClick={()=>{
-
+                onClick={() => {
                   setShowForm(false);
-
                   clearForm();
-
                 }}
-
               >
-
                 Cancel
-
               </button>
             </div>
+
           </div>
         </>
-
       )}
+
       <table className="income-table">
 
-
         <thead>
-
           <tr>
-
             <th>Title</th>
-
-            <th>Category</th>
-
+            <th>Source</th>
             <th>Date</th>
-
             <th>Amount</th>
-
             <th>Action</th>
-
           </tr>
-
-
         </thead>
+
         <tbody>
 
+          {incomeData.length > 0 ? (
 
-          {incomeData.map((income)=>(
+            incomeData.map((income) => (
 
+              <tr key={income._id}>
 
-            <tr key={income._id}>
+                <td>{income.title}</td>
 
+                <td>{income.Source}</td>
 
-              <td>{income.title}</td>
+                <td>
+                  {new Date(income.date)
+                    .toLocaleDateString("en-GB")
+                    .replace(/\//g, "-")}
+                </td>
 
-              <td>{income.category}</td>
+                <td className="income-amount">
+                  ₹{income.amount}
+                </td>
 
-              <td>
-  {new Date(income.date).toLocaleDateString("en-GB").replace(/\//g, "-")}
-</td>
+                <td className="action-buttons">
 
-              <td className="income-amount">
+                  <button
+                    className="edit-btn"
+                    onClick={() => handleEdit(income)}
+                  >
+                    ✏️
+                  </button>
 
-                 ₹{income.amount}
+                  <button
+                    className="delete-btn"
+                    onClick={() => handleDelete(income._id)}
+                  >
+                    🗑️
+                  </button>
 
-              </td>
-              <td className="action-buttons">
+                </td>
 
+              </tr>
 
-                <button
+            ))
 
-                  className="edit-btn"
+          ) : (
 
-                  onClick={()=>handleEdit(income)}
-
-                >
-
-                  ✏️
-
-                </button>
-                <button
-
-                  className="delete-btn"
-
-                  onClick={()=>handleDelete(income._id)}
-
-                >
-
-                  🗑️
-
-                </button>
+            <tr>
+              <td colSpan="5" style={{ textAlign: "center" }}>
+                No Income Found
               </td>
             </tr>
-          ))}
+
+          )}
+
         </tbody>
+
       </table>
+
     </div>
-
   );
-
 }
+
 export default Income;
