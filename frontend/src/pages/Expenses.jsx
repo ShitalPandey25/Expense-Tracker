@@ -1,8 +1,4 @@
 import { useState, useEffect } from "react";
-<<<<<<< HEAD
-import API from "../api/axios";
-=======
->>>>>>> d332f3876260dcf16ee5fddbfb1e28dbe1c4d94c
 import "./Expenses.css";
 
 function Expenses() {
