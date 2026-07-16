@@ -4,72 +4,63 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import "./Login.css";
 
 function Login() {
-
   const navigate = useNavigate();
 
   const [loginData, setLoginData] = useState({
     email: "",
-    password: ""
+    password: "",
   });
 
   const [showPassword, setShowPassword] = useState(false);
 
-
   const handleChange = (e) => {
     setLoginData({
       ...loginData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
-
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
-    const users = JSON.parse(localStorage.getItem("users")) || [];
+    try {
+      const response = await fetch("http://localhost:5000/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(loginData),
+      });
 
+      const data = await response.json();
 
-    const user = users.find(
-      (item) =>
-        item.email === loginData.email &&
-        item.password === loginData.password
-    );
+      if (response.ok) {
+        alert(data.message);
 
+        localStorage.setItem("token", data.token);
+        localStorage.setItem(
+          "loggedInUser",
+          JSON.stringify(data.user)
+        );
 
-    if(user){
-
-      alert("Login Successful");
-
-
-      localStorage.setItem(
-        "loggedInUser",
-        JSON.stringify(user)
-      );
-
-
-      navigate("/dashboard");
-
+        navigate("/dashboard");
+      } else {
+        alert(data.message);
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Server Error");
     }
-    else{
-      alert("Invalid Email or Password");
-    }
-
   };
-
 
   return (
     <div className="login-container">
-
       <div className="login-card">
-
         <h1>Expense Tracker</h1>
 
         <h2>Login</h2>
 
-
         <form onSubmit={handleLogin}>
-
-
           <input
             type="email"
             name="email"
@@ -79,43 +70,32 @@ function Login() {
             required
           />
 
+          <div className="password-box">
+            <input
+              type={showPassword ? "text" : "password"}
+              name="password"
+              placeholder="Enter Password"
+              value={loginData.password}
+              onChange={handleChange}
+              required
+            />
 
-         <div className="password-box">
+            <span
+              className="eye-icon"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            </span>
+          </div>
 
-  <input
-    type={showPassword ? "text" : "password"}
-    name="password"
-    placeholder="Enter Password"
-    value={loginData.password}
-    onChange={handleChange}
-    required
-  />
-
-  <span
-    className="eye-icon"
-    onClick={() => setShowPassword(!showPassword)}
-  >
-    {showPassword ? <FaEyeSlash /> : <FaEye />}
-  </span>
-
-</div>
-
-          <button type="submit">
-            Login
-          </button>
-
-
+          <button type="submit">Login</button>
         </form>
-
 
         <p>
           Don't have an account?
           <Link to="/register"> Register</Link>
         </p>
-
-
       </div>
-
     </div>
   );
 }

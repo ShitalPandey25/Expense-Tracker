@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
+<<<<<<< HEAD
 import API from "../api/axios";
+=======
+>>>>>>> d332f3876260dcf16ee5fddbfb1e28dbe1c4d94c
 import "./income.css";
 
 function Income() {
@@ -18,6 +21,7 @@ function Income() {
 
 
 
+<<<<<<< HEAD
  const [incomeData, setIncomeData] = useState([]);
 
 useEffect(() => {
@@ -29,6 +33,9 @@ useEffect(() => {
       console.error(error);
     }
   };
+=======
+  const [incomeData, setIncomeData] = useState([]);
+>>>>>>> d332f3876260dcf16ee5fddbfb1e28dbe1c4d94c
 
   fetchIncome();
 }, []);
@@ -45,22 +52,51 @@ useEffect(() => {
 
   };
 
+<<<<<<< HEAD
   const clearForm = () => {
+=======
 
-    setIncomeForm({
+const clearForm = () => {
+  setIncomeForm({
+    title: "",
+    source: "",
+    amount: "",
+    date: "",
+  });
 
+  setEditId(null);
+};
+  
+>>>>>>> d332f3876260dcf16ee5fddbfb1e28dbe1c4d94c
+
+    
+
+<<<<<<< HEAD
       title: "",
       category: "",
       amount: "",
       date: "",
+=======
+useEffect(() => {
+  fetchIncome();
+}, []);
+>>>>>>> d332f3876260dcf16ee5fddbfb1e28dbe1c4d94c
 
-    });
+const fetchIncome = async () => {
+  try {
+    const response = await fetch("http://localhost:5000/api/income");
 
-    setEditId(null);
+    const data = await response.json();
 
-  };
+    setIncomeData(data);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
+  const handleSave = async () => {
 
+<<<<<<< HEAD
   const handleSave = async () => {
 
   if (
@@ -83,16 +119,90 @@ useEffect(() => {
     });
 
     setIncomeData([...incomeData, response.data.income]);
+=======
+  if (
+    !incomeForm.title ||
+    !incomeForm.source ||
+    !incomeForm.amount ||
+    !incomeForm.date
+  ) {
+    alert("Please fill all fields.");
+    return;
+  }
+
+  try {
+
+    // UPDATE
+    if (editId) {
+
+      const response = await fetch(
+        `http://localhost:5000/api/income/${editId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            title: incomeForm.title,
+            source: incomeForm.source,
+            amount: Number(incomeForm.amount),
+            date: incomeForm.date.split("T")[0],
+          }),
+        }
+      );
+
+      const data = await response.json();
+      alert(data.message);
+
+    }
+
+    // ADD
+    else {
+
+      const response = await fetch(
+        "http://localhost:5000/api/income",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            title: incomeForm.title,
+            source: incomeForm.source,
+            amount: Number(incomeForm.amount),
+            date: incomeForm.date,
+          }),
+        }
+      );
+
+      const data = await response.json();
+      alert(data.message);
+
+    }
+
+    fetchIncome();
+>>>>>>> d332f3876260dcf16ee5fddbfb1e28dbe1c4d94c
 
     clearForm();
     setShowForm(false);
 
   } catch (error) {
+<<<<<<< HEAD
     console.error(error);
     alert("Failed to save income");
   }
 
 };
+=======
+
+    console.log(error);
+
+    alert("Server Error");
+
+  }
+};
+
+>>>>>>> d332f3876260dcf16ee5fddbfb1e28dbe1c4d94c
 
   const handleEdit = (income) => {
 
@@ -103,7 +213,7 @@ useEffect(() => {
 
       category: income.category,
 
-      amount: income.amount.replace("₹","").replace(",",""),
+      amount: income.amount,
 
       date: income.date,
 
@@ -117,26 +227,38 @@ useEffect(() => {
 
   };
 
+const handleDelete = async (id) => {
 
-  const handleDelete = (id) => {
+  const confirmDelete = window.confirm(
+    "Are you sure you want to delete this income?"
+  );
 
+  if (!confirmDelete) return;
 
-    const confirmDelete = window.confirm(
+  try {
 
-      "Are you sure you want to delete this income?"
-
+    const response = await fetch(
+      `http://localhost:5000/api/income/${id}`,
+      {
+        method: "DELETE",
+      }
     );
 
+    const data = await response.json();
 
+    alert(data.message);
 
-    if(!confirmDelete){
+    fetchIncome();
 
-      return;
+  } catch (error) {
 
-    }
+    console.log(error);
 
+    alert("Server Error");
 
+  }
 
+<<<<<<< HEAD
     const updatedIncome = incomeData.filter(
 
       (income)=> income.id !== id
@@ -147,6 +269,9 @@ useEffect(() => {
 
 
   };
+=======
+};
+>>>>>>> d332f3876260dcf16ee5fddbfb1e28dbe1c4d94c
 
   return (
 
@@ -317,11 +442,13 @@ useEffect(() => {
 
               <td>{income.category}</td>
 
-              <td>{income.date}</td>
+              <td>
+  {new Date(income.date).toLocaleDateString("en-GB").replace(/\//g, "-")}
+</td>
 
               <td className="income-amount">
 
-                {income.amount}
+                 ₹{income.amount}
 
               </td>
               <td className="action-buttons">

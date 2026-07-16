@@ -4,13 +4,12 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import "./Register.css";
 
 function Register() {
-
   const navigate = useNavigate();
 
   const [user, setUser] = useState({
     name: "",
     email: "",
-    password: ""
+    password: "",
   });
 
   const [showPassword, setShowPassword] = useState(false);
@@ -18,71 +17,79 @@ function Register() {
   const handleChange = (e) => {
     setUser({
       ...user,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
+
     // Name validation
-if (user.name.trim().length < 3) {
-  alert("Name must be at least 3 characters.");
-  return;
-}
-
-// Email validation
-const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-if (!emailRegex.test(user.email)) {
-  alert("Please enter a valid email address.");
-  return;
-}
-
-// Strong Password Validation
-const passwordRegex =
-/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/;
-
-if (!passwordRegex.test(user.password)) {
-  alert(
-    "Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number and one special character."
-  );
-  return;
-}
-
-    const users = JSON.parse(localStorage.getItem("users")) || [];
-
-    const existUser = users.find(
-      (item) => item.email === user.email
-    );
-
-    if (existUser) {
-      alert("User already exists");
+    if (user.name.trim().length < 3) {
+      alert("Name must be at least 3 characters.");
       return;
     }
 
-    users.push(user);
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    localStorage.setItem(
-      "users",
-      JSON.stringify(users)
-    );
+    if (!emailRegex.test(user.email)) {
+      alert("Please enter a valid email address.");
+      return;
+    }
 
-    alert("Registration Successful");
+    // Password validation
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/;
 
-    navigate("/login");
+    if (!passwordRegex.test(user.password)) {
+      alert(
+        "Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number and one special character."
+      );
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        "http://localhost:5000/api/auth/register",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(user),
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert(data.message);
+
+        setUser({
+          name: "",
+          email: "",
+          password: "",
+        });
+
+        navigate("/login");
+      } else {
+        alert(data.message);
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Server Error");
+    }
   };
 
   return (
     <div className="register-container">
-
       <div className="register-card">
-
         <h1>Expense Tracker</h1>
 
         <h2>Register</h2>
 
         <form onSubmit={handleRegister}>
-
           <input
             type="text"
             name="name"
@@ -102,7 +109,6 @@ if (!passwordRegex.test(user.password)) {
           />
 
           <div className="password-box">
-
             <input
               type={showPassword ? "text" : "password"}
               name="password"
@@ -118,22 +124,16 @@ if (!passwordRegex.test(user.password)) {
             >
               {showPassword ? <FaEyeSlash /> : <FaEye />}
             </span>
-
           </div>
 
-          <button type="submit">
-            Register
-          </button>
-
+          <button type="submit">Register</button>
         </form>
 
         <p>
           Already have an account?
           <Link to="/login"> Login</Link>
         </p>
-
       </div>
-
     </div>
   );
 }

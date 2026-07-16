@@ -1,7 +1,10 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
+<<<<<<< HEAD
 
+=======
+>>>>>>> d332f3876260dcf16ee5fddbfb1e28dbe1c4d94c
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
 import reportRoutes from "./routes/reportRoutes.js";
@@ -13,8 +16,11 @@ dotenv.config();
 connectDB();
 
 const app = express();
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> d332f3876260dcf16ee5fddbfb1e28dbe1c4d94c
 app.use(cors());
 app.use(express.json());
 

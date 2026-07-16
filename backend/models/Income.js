@@ -7,7 +7,7 @@ const incomeSchema = new mongoose.Schema({
         required: true
     },
 
-    category: {
+    source: {
         type: String,
         required: true
     },

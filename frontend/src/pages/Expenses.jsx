@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
+<<<<<<< HEAD
 import API from "../api/axios";
+=======
+>>>>>>> d332f3876260dcf16ee5fddbfb1e28dbe1c4d94c
 import "./Expenses.css";
 
 function Expenses() {
@@ -19,38 +22,7 @@ useEffect(() => {
 
 },[]); 
 
-  const [expenses, setExpenses] = useState(() => {
-
-    const savedExpenses = localStorage.getItem("expenses");
-
-    return savedExpenses
-      ? JSON.parse(savedExpenses)
-      : [
-          {
-            id: 1,
-            title: "Groceries",
-            category: "Food",
-            amount: "₹1,200",
-            date: "09 Jul 2026",
-          },
-          {
-            id: 2,
-            title: "Electricity Bill",
-            category: "Bills",
-            amount: "₹900",
-            date: "08 Jul 2026",
-          },
-          {
-            id: 3,
-            title: "Shopping",
-            category: "Shopping",
-            amount: "₹2,500",
-            date: "07 Jul 2026",
-          },
-        ];
-
-  });
-
+  const [expenses, setExpenses] = useState([]);
 
 
   const handleChange = (e) => {
@@ -76,113 +48,92 @@ useEffect(() => {
     setEditId(null);
 
   };
+useEffect(() => {
+  fetchExpenses();
+}, []);
+
+const fetchExpenses = async () => {
+  try {
+    const response = await fetch("http://localhost:5000/api/expenses");
+
+    const data = await response.json();
+
+    setExpenses(data);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 
-
-  const handleSave = () => {
-
-
-    if (
-      !expenseForm.title ||
-      !expenseForm.category ||
-      !expenseForm.amount ||
-      !expenseForm.date
-    ) {
-
-      alert("Please fill all fields.");
-      return;
-
-    }
+  const handleSave = async () => {
 
 
-    let updatedExpenses;
+   try {
 
-    // UPDATE EXPENSE
-    if(editId){
+  // UPDATE
+  if (editId) {
 
-
-      updatedExpenses = expenses.map((expense)=>{
-
-
-        if(expense.id === editId){
-
-          return {
-
-            ...expense,
-
-            title: expenseForm.title,
-
-            category: expenseForm.category,
-
-            amount: `₹${expenseForm.amount}`,
-
-            date: expenseForm.date,
-
-          };
-
-        }
-
-
-        return expense;
-
-
-      });
-
-
-    }
-
-
-    // ADD NEW EXPENSE
-    else{
-
-
-      const newExpense = {
-
-        id: Date.now(),
-
-        title: expenseForm.title,
-
-        category: expenseForm.category,
-
-        amount: `₹${expenseForm.amount}`,
-
-        date: expenseForm.date,
-
-      };
-
-
-      updatedExpenses = [
-
-        ...expenses,
-
-        newExpense
-
-      ];
-
-
-    }
-
-
-
-    setExpenses(updatedExpenses);
-
-    localStorage.setItem(
-
-      "expenses",
-
-      JSON.stringify(updatedExpenses)
-
+    const response = await fetch(
+      `http://localhost:5000/api/expenses/${editId}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title: expenseForm.title,
+          category: expenseForm.category,
+          amount: Number(expenseForm.amount),
+          date: expenseForm. date,
+        }),
+      }
     );
 
+    const data = await response.json();
 
+    alert(data.message);
 
-    clearForm();
+  }
 
-    setShowForm(false);
+  // ADD
+  else {
 
+    const response = await fetch(
+      "http://localhost:5000/api/expenses",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title: expenseForm.title,
+          category: expenseForm.category,
+          amount: Number(expenseForm.amount),
+          date: expenseForm.date,
+        }),
+      }
+    );
 
-  };
+    const data = await response.json();
 
+    alert(data.message);
+
+  }
+
+  fetchExpenses();
+
+  clearForm();
+
+  setShowForm(false);
+
+} catch (error) {
+
+  console.log(error);
+
+  alert("Server Error");
+
+}
+};
 
 
   const handleEdit = (expense) => {
@@ -194,15 +145,15 @@ useEffect(() => {
 
       category: expense.category,
 
-      amount: expense.amount.replace("₹","").replace(",",""),
+      amount: expense.amount,
 
-      date: expense.date,
+      date: expense.date.split("T")[0],
 
     });
 
 
 
-    setEditId(expense.id);
+    setEditId(expense._id);
 
 
 
@@ -215,37 +166,40 @@ useEffect(() => {
 
 
 
-  const handleDelete = (id) => {
+ const handleDelete = async (id) => {
 
   const confirmDelete = window.confirm(
     "Are you sure you want to delete this expense?"
   );
 
-
   if (!confirmDelete) {
     return;
   }
 
+  try {
 
+    const response = await fetch(
+      `http://localhost:5000/api/expenses/${id}`,
+      {
+        method: "DELETE",
+      }
+    );
 
-  const updatedExpenses = expenses.filter(
+    const data = await response.json();
 
-    (expense) => expense.id !== id
+    alert(data.message);
 
-  );
+    fetchExpenses();
 
-  setExpenses(updatedExpenses);
+  } catch (error) {
 
-  localStorage.setItem(
+    console.log(error);
 
-    "expenses",
+    alert("Server Error");
 
-    JSON.stringify(updatedExpenses)
+  }
 
-  );
-
-  };
-
+};
   return (
 
     <div className="expenses">
@@ -491,13 +445,15 @@ useEffect(() => {
 
           {expenses.map((expense)=>(
 
-            <tr key={expense.id}>
+            <tr key={expense._id}>
               <td>{expense.title}</td>
               <td>{expense.category}</td>
-              <td>{expense.date}</td>
+              <td>
+  {new Date(expense.date).toLocaleDateString("en-GB")}
+</td>
               <td className="expense-amount">
 
-                {expense.amount}
+                    ₹{expense.amount}
 
               </td>
 
@@ -517,7 +473,7 @@ useEffect(() => {
 
                   className="delete-btn"
 
-                  onClick={() => handleDelete(expense.id)}
+                  onClick={() => handleDelete(expense._id)}
 
                 >
 
