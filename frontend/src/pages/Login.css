@@ -130,3 +130,18 @@ form > input{
     }
 
 }
+.forgot-password {
+  text-align: right;
+  margin: 10px 0 20px;
+}
+
+.forgot-password a {
+  text-decoration: none;
+  color: #2563eb;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.forgot-password a:hover {
+  text-decoration: underline;
+}

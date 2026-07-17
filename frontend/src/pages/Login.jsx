@@ -87,7 +87,9 @@ function Login() {
               {showPassword ? <FaEyeSlash /> : <FaEye />}
             </span>
           </div>
-
+          <div className="forgot-password">
+  <Link to="/forgot-password">Forgot Password?</Link>
+</div>
           <button type="submit">Login</button>
         </form>
 

@@ -5,7 +5,6 @@ import jwt from "jsonwebtoken";
 // Register User
 export const registerUser = async (req, res) => {
   try {
-    console.log(req.body);
     const { name, email, password } = req.body;
 
     // Check user already exists
@@ -83,6 +82,63 @@ export const loginUser = async (req, res) => {
         name: user.name,
         email: user.email,
       },
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+// Forgot Password
+export const forgotPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    // Check if user exists
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({
+        message: "Email not found",
+      });
+    }
+
+    res.status(200).json({
+      message: "Email verified successfully",
+      userId: user._id,
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+// Reset Password
+export const resetPassword = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    // Check if user exists
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found",
+      });
+    }
+
+    // Hash new password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Update password
+    user.password = hashedPassword;
+    await user.save();
+
+    res.status(200).json({
+      message: "Password updated successfully",
     });
 
   } catch (error) {
