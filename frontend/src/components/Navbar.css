@@ -1,86 +1,149 @@
 .navbar {
-  width: 100%;
-  min-height: 70px;
-  background-color: #1e293b;
-  color: white;
-
+  height: 70px;
+  background: #1e293b;
   display: flex;
-  align-items: center;
   justify-content: space-between;
-
-  padding: 0 40px;
+  align-items: center;
+  padding: 0 30px;
+  position: relative;
+  z-index: 1000;
 }
 
 
 .navbar-title {
+  color: white;
   font-size: 24px;
-  font-weight: bold;
+  font-weight: 700;
 }
 
 
-.navbar-menu {
+/* Profile Section */
+
+.profile-section {
+  position: relative;
+}
+
+
+.profile-btn {
   display: flex;
-  list-style: none;
-  gap: 25px;
+  align-items: center;
+  gap: 10px;
+
+  background: transparent;
+  border: none;
+
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 8px;
 }
 
 
-.navbar-menu li {
-  cursor: pointer;
+.profile-btn:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+
+/* Dropdown */
+
+.profile-dropdown {
+
+  position: absolute;
+
+  top: 50px;
+  right: 0;
+
+  width: 230px;
+
+  background: white;
+
+  border-radius: 12px;
+
+  padding: 18px;
+
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+
+  z-index: 9999;
+
+  animation: dropdown 0.2s ease-in-out;
+}
+
+
+@keyframes dropdown {
+
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+}
+
+
+.profile-dropdown h4 {
+
+  margin: 0 0 10px;
+
+  color: #1e293b;
+
   font-size: 16px;
 }
 
 
-.navbar-menu li:hover {
-  color: #38bdf8;
-}
+.profile-dropdown p {
 
+  margin: 5px 0;
 
-/* Tablet */
+  color: #64748b;
 
-@media(max-width:900px){
-
-  .navbar{
-    padding:0 25px;
-  }
-
-  .navbar-title{
-    font-size:22px;
-  }
+  font-size: 14px;
 
 }
 
 
-/* Mobile */
+.profile-dropdown hr {
 
-@media(max-width:600px){
+  margin: 15px 0;
 
-  .navbar{
+  border: none;
 
-    padding:0 15px;
-    min-height:60px;
+  border-top: 1px solid #e2e8f0;
 
-  }
-
-
-  .navbar-title{
-
-    font-size:20px;
-
-  }
+}
 
 
-  .navbar-menu{
+/* Logout Button */
 
-    gap:12px;
+.logout-btn {
 
-  }
+  width: 100%;
+
+  padding: 10px;
+
+  border: none;
+
+  border-radius: 8px;
+
+  background: #ef4444;
+
+  color: white;
+
+  font-size: 15px;
+
+  cursor: pointer;
+
+}
 
 
-  .navbar-menu li{
+.logout-btn:hover {
 
-    font-size:14px;
-
-  }
+  background: #dc2626;
 
 }

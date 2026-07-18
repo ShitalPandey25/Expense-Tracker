@@ -4,6 +4,8 @@ import MainLayout from "../layouts/MainLayout";
 
 import Login from "../pages/Login";
 import Register from "../pages/Register";
+import ForgotPassword from "../pages/ForgotPassword.jsx";
+import ResetPassword from "../pages/ResetPassword";
 import Dashboard from "../pages/Dashboard";
 import Expenses from "../pages/Expenses";
 import Income from "../pages/Income";
@@ -19,8 +21,8 @@ function ExpenseRouter() {
       <Route path="/login" element={<Login />} />
 
       <Route path="/register" element={<Register />} />
-
-
+      <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/reset-password" element={<ResetPassword />} />
       {/* Protected Pages */}
       <Route element={<MainLayout />}>
 
