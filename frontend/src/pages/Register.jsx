@@ -7,9 +7,6 @@ import "./Register.css";
 function Register(){
 
   const navigate = useNavigate();
-
-
-
   const [user,setUser] = useState({
 
     name:"",
@@ -18,12 +15,7 @@ function Register(){
 
   });
 
-
-
   const [showPassword,setShowPassword] = useState(false);
-
-
-
   const handleChange = (e)=>{
 
     setUser({
@@ -36,15 +28,9 @@ function Register(){
 
   };
 
-
-
-
   const handleRegister = async(e)=>{
 
     e.preventDefault();
-
-
-
     if(user.name.trim().length < 3){
 
       alert("Name must be at least 3 characters.");
@@ -52,15 +38,8 @@ function Register(){
       return;
 
     }
-
-
-
-
     const emailRegex =
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-
-
     if(!emailRegex.test(user.email)){
 
       alert("Please enter a valid email address.");
@@ -68,35 +47,15 @@ function Register(){
       return;
 
     }
-
-
-
-
     const passwordRegex =
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/;
-
-
-
-
     if(!passwordRegex.test(user.password)){
-
-
       alert(
         "Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number and one special character."
       );
-
-
       return;
-
-
     }
-
-
-
-
     try{
-
-
       const response = await fetch(
 
         "http://localhost:5000/api/auth/register",
@@ -118,21 +77,9 @@ function Register(){
         }
 
       );
-
-
-
       const data = await response.json();
-
-
-
-
       if(response.ok){
-
-
         alert(data.message);
-
-
-
         setUser({
 
           name:"",
@@ -141,21 +88,11 @@ function Register(){
 
         });
 
-
-
         navigate("/login");
-
-
       }
       else{
-
-
         alert(data.message);
-
-
       }
-
-
 
     }
     catch(error){
@@ -171,15 +108,13 @@ function Register(){
 
 
   };
-
-
-
-
-
   return(
 
     <div className="register-container">
 
+ <div className="blob blob1"></div>
+    <div className="blob blob2"></div>
+    <div className="blob blob3"></div>
 
       <div className="register-card">
 
@@ -187,15 +122,9 @@ function Register(){
         <h1>
           Expense Tracker
         </h1>
-
-
-
         <h2>
           Register
         </h2>
-
-
-
         <form
 
           onSubmit={handleRegister}
@@ -203,8 +132,6 @@ function Register(){
           autoComplete="off"
 
         >
-
-
 
           <input
 
@@ -223,10 +150,6 @@ function Register(){
             required
 
           />
-
-
-
-
           <input
 
             type="email"
@@ -244,10 +167,6 @@ function Register(){
             required
 
           />
-
-
-
-
           <div className="password-box">
 
 
@@ -279,10 +198,6 @@ function Register(){
 
 
             />
-
-
-
-
             <span
 
               className="eye-icon"
@@ -301,14 +216,7 @@ function Register(){
 
 
             </span>
-
-
-
           </div>
-
-
-
-
 
           <button type="submit">
 
@@ -316,13 +224,7 @@ function Register(){
 
           </button>
 
-
-
-
         </form>
-
-
-
 
 
         <p>
@@ -336,18 +238,11 @@ function Register(){
 
 
         </p>
-
-
-
       </div>
-
-
-
     </div>
 
   );
 
 }
-
 
 export default Register;

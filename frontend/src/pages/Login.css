@@ -20,7 +20,7 @@ body{
   justify-content:center;
   align-items:center;
   overflow:hidden;
-  background:linear-gradient(-45deg,#0f172a,#1e3a8a,#4f46e5,#2563eb);
+  background:linear-gradient(-45deg,#0f172a,#0b0c0f,#131314,#17181b);
   background-size:400% 400%;
   animation:bgAnimation 12s ease infinite;
 }

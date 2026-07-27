@@ -61,7 +61,7 @@ const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   return (
     <div className="forgot-container">
       <div className="forgot-card">
-        <h2>Reset Password</h2>
+        <h1>Reset Password</h1>
 
         <form onSubmit={handleSubmit}>
 

@@ -103,6 +103,7 @@ function Login() {
               placeholder="Registered Email"
               value={loginData.email}
               onChange={handleChange}
+              autoComplete="off"
               required
             />
 
@@ -120,6 +121,7 @@ function Login() {
               placeholder="Password"
               value={loginData.password}
               onChange={handleChange}
+              autoComplete="new-password"
               required
             />
 

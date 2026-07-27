@@ -33,6 +33,9 @@ function ForgotPassword() {
 };
   return (
   <div className="forgot-container">
+   <div className="blob blob1"></div>
+    <div className="blob blob2"></div>
+    <div className="blob blob3"></div>
     <div className="forgot-card">
       <h1>Forgot Password</h1>
 
