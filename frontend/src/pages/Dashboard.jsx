@@ -15,13 +15,13 @@ function Dashboard() {
     try {
 
       const incomeResponse = await fetch(
-        "http://localhost:5000/api/income"
+        `${import.meta.env.VITE_API_URL}/api/income`
       );
 
       const income = await incomeResponse.json();
 
       const expenseResponse = await fetch(
-        "http://localhost:5000/api/expenses"
+        `${import.meta.env.VITE_API_URL}/api/expenses`
       );
 
       const expense = await expenseResponse.json();

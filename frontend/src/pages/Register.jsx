@@ -58,7 +58,7 @@ function Register(){
     try{
       const response = await fetch(
 
-        "http://localhost:5000/api/auth/register",
+      `${import.meta.env.VITE_API_URL}api/auth/register`,
 
         {
 
@@ -117,8 +117,6 @@ function Register(){
     <div className="blob blob3"></div>
 
       <div className="register-card">
-
-
         <h1>
           Expense Tracker
         </h1>
@@ -132,7 +130,6 @@ function Register(){
           autoComplete="off"
 
         >
-
           <input
 
             type="text"

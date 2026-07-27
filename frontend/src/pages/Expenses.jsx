@@ -28,7 +28,7 @@ function Expenses() {
   const fetchExpenses = async () => {
     try {
       const response = await fetch(
-        "http://localhost:5000/api/expenses"
+        `${import.meta.env.VITE_API_URL}/api/expenses`
       );
 
       const data = await response.json();
@@ -75,7 +75,7 @@ function Expenses() {
       // UPDATE
       if (editId) {
         const response = await fetch(
-          `http://localhost:5000/api/expenses/${editId}`,
+          `${import.meta.env.VITE_API_URL}api/expenses/${editId}`,
           {
             method: "PUT",
             headers: {
@@ -97,7 +97,7 @@ function Expenses() {
       // ADD
       else {
         const response = await fetch(
-          "http://localhost:5000/api/expenses",
+          `${import.meta.env.VITE_API_URL}/api/expenses`,
           {
             method: "POST",
             headers: {
@@ -148,7 +148,7 @@ function Expenses() {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/expenses/${id}`,
+        `${import.meta.env.VITE_API_URL}/api/expenses/${id}`,
         {
           method: "DELETE",
         }
