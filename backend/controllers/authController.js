@@ -133,8 +133,7 @@ export const resetPassword = async (req, res) => {
     });
 
   }catch (error) {
-  console.error(error);
-
+  console.log("FULL REGISTER ERROR:", error);
   res.status(500).json({
     message: error.message,
   });
