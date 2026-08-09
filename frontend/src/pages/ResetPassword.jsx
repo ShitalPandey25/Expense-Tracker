@@ -85,13 +85,12 @@ const [showConfirmPassword, setShowConfirmPassword] = useState(false);
               autoComplete="new-password"
               required
             />
-            <button
-              type="button"
+            <span
               className="eye-icon"
               onClick={() => setShowPassword(!showPassword)}
             >
               {showPassword ? <FaEyeSlash /> : <FaEye />}
-            </button>
+            </span>
           </div>
 
           <div className="password-box">
@@ -104,13 +103,12 @@ const [showConfirmPassword, setShowConfirmPassword] = useState(false);
               autoComplete="new-password"
               required
             />
-            <button
-              type="button"
+            <span
               className="eye-icon"
               onClick={() => setShowConfirmPassword(!showConfirmPassword)}
             >
               {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
-            </button>
+            </span>
           </div>
 
           <button type="submit">

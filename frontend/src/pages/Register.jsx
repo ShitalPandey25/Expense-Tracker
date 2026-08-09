@@ -195,8 +195,7 @@ function Register(){
 
 
             />
-            <button
-              type="button"
+            <span
               className="eye-icon"
               onClick={()=>setShowPassword(!showPassword)}
             >
@@ -205,7 +204,7 @@ function Register(){
                 ? <FaEyeSlash/>
                 : <FaEye/>
               }
-            </button>
+            </span>
           </div>
 
           <button type="submit">
