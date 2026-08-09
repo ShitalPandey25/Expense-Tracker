@@ -75,59 +75,40 @@ const [showConfirmPassword, setShowConfirmPassword] = useState(false);
           />
 
           <div className="password-box">
-  <div className="password-box">
-  <input
-    type={showPassword ? "text" : "password"}
-    name="password"
-    placeholder="Enter New Password"
-    value={formData.password}
-    onChange={handleChange}
-    autoComplete="new-password"
-    required
-  />
-
-  <span
-    className="eye-icon"
-    onClick={() => setShowPassword(!showPassword)}
-  >
-    {showPassword ? <FaEyeSlash /> : <FaEye />}
-  </span>
-</div>
-  <span
-    className="eye-icon"
-    onClick={() => setShowPassword(!showPassword)}
-  >
-    {showPassword ? <FaEyeSlash /> : <FaEye />}
-  </span>
-</div>
+            <input
+              type={showPassword ? "text" : "password"}
+              name="password"
+              placeholder="Enter New Password"
+              value={formData.password}
+              onChange={handleChange}
+              autoComplete="new-password"
+              required
+            />
+            <span
+              className="eye-icon"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            </span>
+          </div>
 
           <div className="password-box">
- <div className="password-box">
-  <input
-    type={showConfirmPassword ? "text" : "password"}
-    name="confirmPassword"
-    placeholder="Confirm Password"
-    value={formData.confirmPassword}
-    onChange={handleChange}
-    autoComplete="new-password"
-    required
-  />
-
-  <span
-    className="eye-icon"
-    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-  >
-    {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
-  </span>
-</div>
-
-  <span
-    className="eye-icon"
-    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-  >
-    {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
-  </span>
-</div>
+            <input
+              type={showConfirmPassword ? "text" : "password"}
+              name="confirmPassword"
+              placeholder="Confirm Password"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              autoComplete="new-password"
+              required
+            />
+            <span
+              className="eye-icon"
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+            >
+              {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+            </span>
+          </div>
 
           <button type="submit">
             Reset Password
