@@ -121,11 +121,12 @@ function Login() {
               placeholder="Password"
               value={loginData.password}
               onChange={handleChange}
-              autoComplete="new-password"
+              autoComplete="current-password"
               required
             />
 
-            <span
+            <button
+              type="button"
               className="eye-icon"
               onClick={() =>
                 setShowPassword(!showPassword)
@@ -136,7 +137,7 @@ function Login() {
               ) : (
                 <FaEye />
               )}
-            </span>
+            </button>
 
           </div>
 

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import "./ForgotPassword.css";
 
 function ResetPassword() {
   const navigate = useNavigate();
@@ -84,12 +85,13 @@ const [showConfirmPassword, setShowConfirmPassword] = useState(false);
               autoComplete="new-password"
               required
             />
-            <span
+            <button
+              type="button"
               className="eye-icon"
               onClick={() => setShowPassword(!showPassword)}
             >
               {showPassword ? <FaEyeSlash /> : <FaEye />}
-            </span>
+            </button>
           </div>
 
           <div className="password-box">
@@ -102,12 +104,13 @@ const [showConfirmPassword, setShowConfirmPassword] = useState(false);
               autoComplete="new-password"
               required
             />
-            <span
+            <button
+              type="button"
               className="eye-icon"
               onClick={() => setShowConfirmPassword(!showConfirmPassword)}
             >
               {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
-            </span>
+            </button>
           </div>
 
           <button type="submit">

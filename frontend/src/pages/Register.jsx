@@ -48,10 +48,10 @@ function Register(){
 
     }
     const passwordRegex =
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/;
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_\-+=[\]{};':"\\|,.<>/?]).{8,}$/;
     if(!passwordRegex.test(user.password)){
       alert(
-        "Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number and one special character."
+        "Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number and one special character (!@#$%^&*()_+-=[]{}|;:',.<>/?)."
       );
       return;
     }
@@ -195,24 +195,17 @@ function Register(){
 
 
             />
-            <span
-
+            <button
+              type="button"
               className="eye-icon"
-
-
               onClick={()=>setShowPassword(!showPassword)}
-
             >
-
-
               {
                 showPassword
                 ? <FaEyeSlash/>
                 : <FaEye/>
               }
-
-
-            </span>
+            </button>
           </div>
 
           <button type="submit">
