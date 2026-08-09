@@ -75,7 +75,7 @@ function Expenses() {
       // UPDATE
       if (editId) {
         const response = await fetch(
-          `${import.meta.env.VITE_API_URL}api/expenses/${editId}`,
+          `${import.meta.env.VITE_API_URL}/api/expenses/${editId}`,
           {
             method: "PUT",
             headers: {

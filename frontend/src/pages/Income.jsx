@@ -69,7 +69,7 @@ function Income() {
       // UPDATE
       if (editId) {
         const response = await fetch(
-          `http://localhost:5000/api/income/${editId}`,
+          `${import.meta.env.VITE_API_URL}/api/income/${editId}`,
           {
             method: "PUT",
             headers: {
@@ -91,7 +91,7 @@ function Income() {
       // ADD
       else {
         const response = await fetch(
-          "http://localhost:5000/api/income",
+          `${import.meta.env.VITE_API_URL}/api/income`,
           {
             method: "POST",
             headers: {
@@ -142,7 +142,7 @@ function Income() {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/income/${id}`,
+        `${import.meta.env.VITE_API_URL}/api/income/${id}`,
         {
           method: "DELETE",
         }
