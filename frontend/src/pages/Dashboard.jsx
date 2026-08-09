@@ -11,17 +11,23 @@ function Dashboard() {
     fetchData();
   }, []);
 
+  const getAuthHeaders = () => ({
+    Authorization: `Bearer ${localStorage.getItem("token")}`,
+  });
+
   const fetchData = async () => {
     try {
 
       const incomeResponse = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/income`
+        `${import.meta.env.VITE_API_URL}/api/income`,
+        { headers: getAuthHeaders() }
       );
 
       const income = await incomeResponse.json();
 
       const expenseResponse = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/expenses`
+        `${import.meta.env.VITE_API_URL}/api/expenses`,
+        { headers: getAuthHeaders() }
       );
 
       const expense = await expenseResponse.json();

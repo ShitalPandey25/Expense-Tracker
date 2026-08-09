@@ -3,8 +3,8 @@ import Income from "../models/Income.js";
 
 export const getReport = async (req, res) => {
   try {
-    const expenses = await Expense.find();
-    const incomes = await Income.find();
+    const expenses = await Expense.find({ user: req.user });
+    const incomes = await Income.find({ user: req.user });
 
     // Total
     const totalExpense = expenses.reduce(

@@ -14,6 +14,11 @@ function Income() {
 
   const [incomeData, setIncomeData] = useState([]);
 
+  const getAuthHeaders = () => ({
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${localStorage.getItem("token")}`,
+  });
+
   useEffect(() => {
     fetchIncome();
   }, []);
@@ -22,7 +27,8 @@ function Income() {
   const fetchIncome = async () => {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/income`
+        `${import.meta.env.VITE_API_URL}/api/income`,
+        { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
       );
 
       const data = await response.json();
@@ -72,9 +78,7 @@ function Income() {
           `${import.meta.env.VITE_API_URL}/api/income/${editId}`,
           {
             method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-            },
+            headers: getAuthHeaders(),
             body: JSON.stringify({
               title: incomeForm.title,
               Source: incomeForm.Source,
@@ -94,9 +98,7 @@ function Income() {
           `${import.meta.env.VITE_API_URL}/api/income`,
           {
             method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
+            headers: getAuthHeaders(),
             body: JSON.stringify({
               title: incomeForm.title,
               Source: incomeForm.Source,
@@ -145,6 +147,7 @@ function Income() {
         `${import.meta.env.VITE_API_URL}/api/income/${id}`,
         {
           method: "DELETE",
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
       );
 

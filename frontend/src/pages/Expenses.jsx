@@ -19,6 +19,11 @@ function Expenses() {
   // Expense Data
   const [expenses, setExpenses] = useState([]);
 
+  const getAuthHeaders = () => ({
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${localStorage.getItem("token")}`,
+  });
+
   // Load Expenses
   useEffect(() => {
     fetchExpenses();
@@ -28,7 +33,8 @@ function Expenses() {
   const fetchExpenses = async () => {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/expenses`
+        `${import.meta.env.VITE_API_URL}/api/expenses`,
+        { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
       );
 
       const data = await response.json();
@@ -78,9 +84,7 @@ function Expenses() {
           `${import.meta.env.VITE_API_URL}/api/expenses/${editId}`,
           {
             method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-            },
+            headers: getAuthHeaders(),
             body: JSON.stringify({
               title: expenseForm.title,
               category: expenseForm.category,
@@ -100,9 +104,7 @@ function Expenses() {
           `${import.meta.env.VITE_API_URL}/api/expenses`,
           {
             method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
+            headers: getAuthHeaders(),
             body: JSON.stringify({
               title: expenseForm.title,
               category: expenseForm.category,
@@ -151,6 +153,7 @@ function Expenses() {
         `${import.meta.env.VITE_API_URL}/api/expenses/${id}`,
         {
           method: "DELETE",
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
       );
 

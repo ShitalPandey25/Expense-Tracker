@@ -10,6 +10,7 @@ export const addExpense = async (req, res) => {
       category,
       amount,
       date,
+      user: req.user,
     });
 
     res.status(201).json({
@@ -26,7 +27,7 @@ export const addExpense = async (req, res) => {
 // Get All Expenses
 export const getExpenses = async (req, res) => {
   try {
-    const expenses = await Expense.find().sort({ date: -1 });
+    const expenses = await Expense.find({ user: req.user }).sort({ date: -1 });
 
     res.status(200).json(expenses);
   } catch (error) {
@@ -35,10 +36,14 @@ export const getExpenses = async (req, res) => {
     });
   }
 };
+
 // Delete Expense
 export const deleteExpense = async (req, res) => {
   try {
-    const expense = await Expense.findByIdAndDelete(req.params.id);
+    const expense = await Expense.findOneAndDelete({
+      _id: req.params.id,
+      user: req.user,
+    });
 
     if (!expense) {
       return res.status(404).json({
@@ -55,13 +60,14 @@ export const deleteExpense = async (req, res) => {
     });
   }
 };
+
 // Update Expense
 export const updateExpense = async (req, res) => {
   try {
     const { title, category, amount, date } = req.body;
 
-    const expense = await Expense.findByIdAndUpdate(
-      req.params.id,
+    const expense = await Expense.findOneAndUpdate(
+      { _id: req.params.id, user: req.user },
       {
         title,
         category,

@@ -6,25 +6,13 @@ import {
   updateIncome,
   deleteIncome,
 } from "../controllers/incomeController.js";
-
+import auth from "../middleware/auth.js";
 
 const router = express.Router();
 
-
-// Add Income
-router.post("/", addIncome);
-
-
-// Get All Income
-router.get("/", getIncomes);
-
-
-// Update Income
-router.put("/:id", updateIncome);
-
-
-// Delete Income
-router.delete("/:id", deleteIncome);
-
+router.post("/", auth, addIncome);
+router.get("/", auth, getIncomes);
+router.put("/:id", auth, updateIncome);
+router.delete("/:id", auth, deleteIncome);
 
 export default router;

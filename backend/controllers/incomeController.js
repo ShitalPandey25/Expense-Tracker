@@ -3,13 +3,14 @@ import Income from "../models/Income.js";
 // Add Income
 export const addIncome = async (req, res) => {
   try {
-    const { title,  Source, amount, date } = req.body;
+    const { title, Source, amount, date } = req.body;
 
     const income = await Income.create({
       title,
-       Source,
+      Source,
       amount,
       date,
+      user: req.user,
     });
 
     res.status(201).json({
@@ -26,7 +27,7 @@ export const addIncome = async (req, res) => {
 // Get All Income
 export const getIncomes = async (req, res) => {
   try {
-    const incomes = await Income.find().sort({ date: -1 });
+    const incomes = await Income.find({ user: req.user }).sort({ date: -1 });
 
     res.status(200).json(incomes);
   } catch (error) {
@@ -39,13 +40,13 @@ export const getIncomes = async (req, res) => {
 // Update Income
 export const updateIncome = async (req, res) => {
   try {
-    const { title,Source, amount, date } = req.body;
+    const { title, Source, amount, date } = req.body;
 
-    const income = await Income.findByIdAndUpdate(
-      req.params.id,
+    const income = await Income.findOneAndUpdate(
+      { _id: req.params.id, user: req.user },
       {
         title,
-         Source,
+        Source,
         amount,
         date,
       },
@@ -72,7 +73,10 @@ export const updateIncome = async (req, res) => {
 // Delete Income
 export const deleteIncome = async (req, res) => {
   try {
-    const income = await Income.findByIdAndDelete(req.params.id);
+    const income = await Income.findOneAndDelete({
+      _id: req.params.id,
+      user: req.user,
+    });
 
     if (!income) {
       return res.status(404).json({
